@@ -47,14 +47,16 @@
 # But readlink -f doesn't work the same everywhere (e.g. Mac OS). We use this instead:
 function readlink_f () { _=`pwd`; cd `dirname $1` && echo `pwd` && cd $_; }
 INSTALLED_PATH=$(readlink_f $0)
-
+echo $INSTALLED_PATH
 # Check if running from unpacked distribution archive by assuming HdrHistogram.jar
 # in the same directory as this script. If not, try to search in target/ directory
 # (running from the source repository build).
-HDRHISTOGRAM_JAR_FILE=$INSTALLED_PATH/HdrHistogram.jar
-if [ ! -f $HDRHISTOGRAM_JAR_FILE ] ; then
-  HDRHISTOGRAM_JAR_FILE=$INSTALLED_PATH/target/HdrHistogram.jar
-fi
+#HDRHISTOGRAM_JAR_FILE=$INSTALLED_PATH/HdrHistogram.jar
+HDRHISTOGRAM_JAR_FILE="$INSTALLED_PATH/lib/HdrHistogram-2.1.6.jar"
+extend_JAR_FILE="$INSTALLED_PATH/lib/jaxb-api-2.3.1.jar"
+#if [ ! -f $HDRHISTOGRAM_JAR_FILE ] ; then
+#  HDRHISTOGRAM_JAR_FILE=$INSTALLED_PATH/target/HdrHistogram.jar
+#fi
 
 JAVA_BIN=`which java`
 
@@ -76,5 +78,5 @@ if [ $? -eq 0 ] ; then
 	echo Windows path for hiccup jar file is $HDRHISTOGRAM_JAR_FILE
 fi
 
-exec $JAVA_CMD -cp $HDRHISTOGRAM_JAR_FILE org.HdrHistogram.HistogramLogProcessor $@
+exec $JAVA_CMD -Xbootclasspath/a:$extend_JAR_FILE -cp $HDRHISTOGRAM_JAR_FILE org.HdrHistogram.HistogramLogProcessor $@
 #exec $CMD
