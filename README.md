@@ -25,6 +25,13 @@ information of the specific API library you intend to use.
 
 ----------------------------------------------
 
+Decode HdrHistogram format output with
+```
+bash HistogramLogProcessor -csv -i "<file>" -o "<file>.csv" -outputValueUnitRatio 1000
+```
+
+----------------------------------------------
+
 HdrHistogram supports the recording and analyzing of sampled data value
 counts across a configurable integer value range with configurable value
 precision within the range. Value precision is expressed as the number of
